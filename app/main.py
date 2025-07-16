@@ -10,8 +10,8 @@ from fastapi import HTTPException
 
 
 app = FastAPI(title="VOD Service API")
-setup_logging()
+# setup_logging()
 
-app.add_exception_handler(HTTPException, http_exception_handler)
-app.add_exception_handler(RequestValidationError, validation_exception_handler)
+# app.add_exception_handler(HTTPException, http_exception_handler)
+# app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.include_router(vod_router, prefix="/api/v1", tags=["VOD"])

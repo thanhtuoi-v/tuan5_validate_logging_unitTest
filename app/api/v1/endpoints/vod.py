@@ -6,12 +6,12 @@ from app.utils.cache import get_or_set_cache
 
 router = APIRouter()
 
-@router.get("/vods", response_model=List[VodResponse],response_model_by_alias=False)
+@router.get("/vods", response_model=List[VodResponse])
 async def read_vods():
     async def fetch(): return await crud_vod.list_vods()
     return await get_or_set_cache("vods:all", fetch, ttl=120)
 
-@router.get("/vods/{vod_id}", response_model=VodResponse,response_model_by_alias=False)
+@router.get("/vods/{vod_id}", response_model=VodResponse)
 async def read_vod(vod_id: str):
     vod = await crud_vod.get_vod(vod_id)
     if not vod:
@@ -22,7 +22,7 @@ async def read_vod(vod_id: str):
 async def create_vod(v: VodCreate):
     return await crud_vod.create_vod(v)
 
-@router.put("/vods/{vod_id}", response_model=VodResponse)
+@router.put("/vods/{vod_id}", response_model=VodResponse,status_code=status.HTTP_202_ACCEPTED)
 async def update_vod(vod_id: str, v: VodUpdate):
     upd = await crud_vod.update_vod(vod_id, v)
     if not upd:
