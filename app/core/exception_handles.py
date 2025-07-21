@@ -1,6 +1,9 @@
 from fastapi import Request, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
+from app.core.logging import get_logger
+
+logger = get_logger(__name__)
 
 async def http_exception_handler(request: Request, exc: HTTPException):
     return JSONResponse(

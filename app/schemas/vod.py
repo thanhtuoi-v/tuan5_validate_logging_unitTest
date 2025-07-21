@@ -1,12 +1,8 @@
 from typing import List, Optional
 from pydantic import BaseModel, Field, ConfigDict, BeforeValidator, field_validator, field_serializer
-from bson import ObjectId
 from typing_extensions import Annotated
 from datetime import date
-def objectid_str(v):
-    if not isinstance(v, ObjectId):
-        raise TypeError("ObjectId required")
-    return str(v)
+from app.utils.data_utils import objectid_str
 
 ObjectIdStr = Annotated[str, BeforeValidator(objectid_str)]
 
