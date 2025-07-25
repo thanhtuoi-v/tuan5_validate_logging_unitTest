@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from app.api.v1.endpoints.vod import router as vod_router
+from app.api.v1.endpoints.crawler import router as crawler_router
 from app.core.logging import setup_logging, get_logger
 from app.db.mongodb import check_db_connection, close_db_connection
 from app.db.redis_client import check_redis_connection, close_redis_connection
@@ -29,5 +30,9 @@ async def lifespan(app: FastAPI):
     await close_redis_connection()
 
 app = FastAPI(title="VOD Service API", lifespan=lifespan)
+
+# Include routers
+app.include_router(vod_router, prefix="/api/v1", tags=["VODs"])
+app.include_router(crawler_router, prefix="/api/v1", tags=["Crawler"])
 
 app.include_router(vod_router, prefix="/api/v1", tags=["VOD"])
